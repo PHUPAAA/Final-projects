@@ -1,0 +1,138 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f5f1;
+    color: #4b4b4b;
+    overflow-x: hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #38470B;
+    padding: 40px 50px;
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 95%;
+}
+.header .logo {
+    font-family: Limelight;
+    font-size: 40px;
+    font-weight: 400;
+    color: #F9F6F2;
+    margin-left: 50px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 50px;
+    font-family: Enriqueta;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 32.11px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    font-family: Enriqueta;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 32.11px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 36px;
+    color: #4b4b4b;
+    font-family: 'Enriqueta', serif;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+form {
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 20px;
+    font-family: 'Enriqueta', serif;
+    color: #4b4b4b;
+}
+
+input {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Enriqueta', serif;
+    transition: border-color 0.3s ease;
+    background-color: #f9f5f1;
+    width: calc(100% - 20px);
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.sign-in-form input:focus {
+    border-color: #38470B;
+    outline: none;
+    background-color: #fff;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #38470b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2f390a;
+}
+
+#message {
+    margin-top: 10px;
+    text-align: center;
+    color: #555;
+}
+
+.sign-up-link {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #4b4b4b;
+    font-family: 'Enriqueta', serif;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-weight: bold;
+}
+
+.sign-up-link:hover {
+    color: #A0855B;
+}

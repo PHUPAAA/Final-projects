@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taoclan</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<script src="assets/auth.js"></script>
+
+<body>
+<header class="header">
+    <div class="logo">TAOCLAN</div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="promotion.html">Memberships</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="contact.html">Contact us</a></li>
+        </ul>
+    </nav>
+</nav>
+    <div id="auth-section">
+    <a href="sign-in.html" id="sign-in-link" style="display: none;">Sign In</a>
+    <img src="/assets/user-icon.png" id="user-icon" alt="User" style="display: none;">
+    <button id="logout-btn" style="display: none;">Logout</button>
+</div>
+</header>
+
+<script>
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    const signInLink = document.getElementById('sign-in-link');
+    const userIcon = document.getElementById('user-icon');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    if (isLoggedIn) {
+        userIcon.style.display = 'inline-block';
+        logoutBtn.style.display = 'inline-block';
+    } else {
+        signInLink.style.display = 'inline-block';
+    }
+
+    logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('userPhoneNumber');
+        alert('Logged out successfully!');
+        window.location.href = 'index.html';
+    });
+</script>
+
+    <main class="main">
+        <div class="intro">
+            <h1>It’s not just coffee</h1>
+            <h2>
+                <span class="its">It’s</span>
+                <span class="taoclan">TAOCLAN</span>
+            </h2>
+            <p>More than just coffee—it’s your daily dose of inspiration and comfort.</p>
+        </div>
+        <div class="mascot">
+            <img src="assets/img/turtle.png" alt="Turtle mascot">
+        </div>
+    </main>
+
+    <!-- Must-try Section -->
+    <section id="must-try-section" class="menu-section">
+    <h1 class="must-try-title">Must Try Menu</h1>
+    <div id="must-try-container" class="menu-container"></div>
+    </section>
+
+    <script>
+    fetch('http://localhost:5000/must-try') // ดึงข้อมูลจาก API
+        .then(response => response.json())
+        .then(data => {
+            const mustTryContainer = document.getElementById('must-try-container');
+            mustTryContainer.innerHTML = ""; // เคลียร์ Container ก่อนแสดงผล
+            data.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.classList.add('menu-item');
+                menuItem.innerHTML = `
+                    <img src="http://localhost:5000/images/${item.image}" alt="${item.name}" class="menu-image">
+                    <h3 class="menu-name">${item.name}</h3>
+                    <p class="menu-description">${item.description}</p>
+                    <p class="menu-price">${item.price} THB</p>
+                `;
+                mustTryContainer.appendChild(menuItem); // เพิ่มเมนูใน Container
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching must-try menus:', error);
+        });
+    </script>
+
+    <footer class="footer section bd-container">
+        <div class="footer__container bd-grid">
+        </div>
+        <p class="footer__copy">&#169; 2024 Taoclan Coffee Company.</p>
+    </footer>
+
+</body>
+
+</html>

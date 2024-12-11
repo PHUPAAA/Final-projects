@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="assets/sign-up.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">TAOCLAN</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="promotion.html">Memberships</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="contact.html">Contact us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <script src="assets/auth.js"></script>
+
+    <div class="sign-up-container">
+        <h2 class="sign-up-title">Create Account</h2>
+        <form class="sign-up-form" id="registerForm">
+            <div class="form-group">
+                <label for="first-name">First Name</label>
+                <input type="text" id="first-name" name="firstName" placeholder="Enter your first name" required>
+            </div>
+            <div class="form-group">
+                <label for="last-name">Last Name</label>
+                <input type="text" id="last-name" name="lastName" placeholder="Enter your last name" required>
+            </div>
+            <div class="form-group">
+                <label for="tel">Phone Number</label>
+                <input type="tel" id="tel" name="phoneNumber" placeholder="Enter your phone number" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth</label>
+                <input type="date" id="dob" name="dateOfBirth" required>
+            </div>
+            <button type="submit" class="sign-up-btn">Create Account</button>
+        </form>
+        <div id="message" style="margin-top: 20px; font-weight: bold;"></div>
+        <a href="sign-in.html" class="sign-in-link">Already have an account? Sign in</a>
+    </div>
+</body>
+
+<script>
+    const registerForm = document.getElementById('registerForm');
+    const messageDiv = document.getElementById('message');
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const firstName = document.getElementById('first-name').value;
+        const lastName = document.getElementById('last-name').value;
+        const phoneNumber = document.getElementById('tel').value;
+        const dateOfBirth = document.getElementById('dob').value;
+
+        try {
+            const res = await fetch('/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ firstName, lastName, phoneNumber, dateOfBirth }),
+            });
+
+            const data = await res.json();
+            console.log("Response from register:", data); 
+
+            if (res.ok) {
+                localStorage.setItem('userId', data.userId);
+                alert('Account created successfully!');
+                window.location.href = 'sign-in.html'; 
+            } else {
+                alert(data.error);
+            }
+        } catch (error) {
+            console.error('Error creating account:', error);
+            alert('Error creating account. Please try again.');
+        }
+    });
+
+</script>
+</html>

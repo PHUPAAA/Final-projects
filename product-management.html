@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management - Taoclan Admin</title>
+    <link rel="stylesheet" href="assets/product-management.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">TAOCLAN Admin</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="admin-dashboard.html">Dashboard</a></li>
+                <li><a href="user-management.html">Users</a></li>
+                <li><a href="reports.html">Reports</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h1>Product Management</h1>
+            <div class="actions">
+                <button id="add-product-btn">Add New Product</button>
+            </div>
+
+            <table id="menu-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Product rows will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal for Add/Edit Product -->
+        <div id="product-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span id="close-modal" class="close">&times;</span>
+                <h2 id="modal-title">Add/Edit Product</h2>
+                <form id="product-form">
+                <input type="hidden" id="productId">
+                <label for="productName">Name:</label>
+                <input type="text" id="productName" required>
+            
+                <label for="productPrice">Price:</label>
+                <input type="number" id="productPrice" required>
+            
+                <label for="productCategory">Category:</label>
+                <input type="text" id="productCategory" required>
+            
+                <label for="productType">Type:</label>
+                <select id="productType" required>
+                    <option value="hot">Hot</option>
+                    <option value="cold">Cold</option>
+                    <option value="N/A">N/A</option>
+                </select>
+            
+                <button type="submit">Save</button>
+            </form>
+
+
+            </div>
+        </div>
+    </main>
+
+    <script src="product-management.js"></script>
+</body>
+
+</html>

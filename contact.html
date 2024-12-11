@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taoclan - Contact Us</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="stylesheet" href="assets/promotion.css">
+
+
+</head>
+<script src="assets/auth.js"></script>
+
+<body>
+    <header class="header">
+        <div class="logo">TAOCLAN</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="promotion.html">Memberships</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="contact.html">Contact us</a></li>
+            </ul>
+        </nav>
+        <div id="auth-section"></div>
+    </header>
+
+    <section class="contact-section" id="contact-section">
+        <h1 class="contact-title">Contact us</h1>
+        <div class="contact-form-container">
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <input type="text" id="first-name" placeholder="First Name" required>
+                    <input type="text" id="last-name" placeholder="Last Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="tel" placeholder="Tel" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="message" rows="5" placeholder="What can we help you with" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Pop-up -->
+    <div id="popup" class="popup hidden">
+        <div class="popup-content">
+            <p>Thank you for your recommendation!</p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // ฟังก์ชันปิด Pop-up
+        function closePopup() {
+            document.getElementById('popup').classList.add('hidden');
+        }
+
+        // ฟังก์ชันจัดการส่งข้อมูล
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault(); // ป้องกันการรีเฟรชหน้าเว็บ
+
+            // ดึงข้อมูลจากฟอร์ม
+            const data = {
+                firstName: document.getElementById('first-name').value,
+                lastName: document.getElementById('last-name').value,
+                tel: document.getElementById('tel').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+
+            try {
+                // ส่งข้อมูลไปยัง API
+                const response = await fetch('http://localhost:5000/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    // แสดง Pop-up เมื่อสำเร็จ
+                    document.getElementById('popup').classList.remove('hidden');
+                    document.getElementById('contact-form').reset(); // ล้างข้อมูลฟอร์ม
+                } else {
+                    alert('Something went wrong. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error submitting contact form:', error);
+                alert('Unable to send your message. Please try again later.');
+            }
+        });
+    </script>
+
+    <style>
+        /* CSS สำหรับ Pop-up */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup.hidden {
+            display: none;
+        }
+
+        .popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-content button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .popup-content button:hover {
+            background-color: #218838;
+        }
+    </style>
+
+    <footer class="footer section bd-container">
+        <div class="footer__container bd-grid">
+        </div>
+        <p class="footer__copy">&#169; 2024 Taoclan Coffee Company.</p>
+    </footer>
+
+</body>
+
+</html>

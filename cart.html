@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taoclan - Cart</title>
+    <link rel="stylesheet" href="assets/cart.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">TAOCLAN</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="promotion.html">Memberships</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="contact.html">Contact us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ข้อความ Happy Birthday จะอยู่ข้างบนตาราง -->
+    <div id="birthday-message"
+        style="display: none; color: green; font-size: 18px; text-align: center; margin-top: 20px;">
+        Happy Birthday! Enjoy your free drink!
+    </div>
+
+    <main>
+        <!-- ตารางสินค้า -->
+        <table id="cart-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Unit Price (Bath)</th>
+                    <th>Quantity</th>
+                    <th>Total Price (Bath)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically generated -->
+            </tbody>
+        </table>
+
+        <div class="cart-actions">
+            <p><strong>Original Total: <span id="grand-total">0</span> Bath</strong></p>
+            <p><strong>Discount: <span id="discount-amount">0</span> Bath</strong></p>
+            <p><strong>Net Total: <span id="net-total">0</span> Bath</strong></p>
+            <div>
+                <button id="confirm-order" class="btn btn-confirm">Confirm Order</button>
+                <button id="cancel-order" class="btn btn-cancel">Cancel Order</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/cart.js"></script>
+</body>
+
+</html>

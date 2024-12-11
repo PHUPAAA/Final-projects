@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taoclan</title>
+    <link rel="stylesheet" href="assets/menu.css">
+    <link rel="stylesheet" href="assets/search.css">
+
+</head>
+<script src="assets/auth.js"></script>
+
+<body>
+ <header class="header">
+    <div class="logo">TAOCLAN</div>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="promotion.html">Memberships</a></li>
+            <li><a href="menu.html">Menu</a></li>
+            <li><a href="contact.html">Contact us</a></li>
+        </ul>
+    </nav>
+    <div id="auth-section"></div>
+ </header>
+
+<div class="menu-container">
+    <aside class="sidebar-small">
+        <h3 class="sidebar-title">Beverage & Food</h3>
+        <ul class="sidebar-links">
+            <li><a href="#hot-coffee">Hot Coffee</a></li>
+            <li><a href="#hot-tea-section">Hot Tea</a></li>
+            <li><a href="#other-hot-beverages-section">Other Hot Beverages</a></li>
+            <li><a href="#cold-coffee-section">Cold Coffee</a></li>
+            <li><a href="#ice-tea-section">Iced Tea</a></li>
+            <li><a href="#other-iced-beverages-section">Other Iced Beverages</a></li>
+            <li><a href="#juice-section">Juice</a></li>
+            <li><a href="#food-section">Food</a></li>
+        </ul>
+    </aside>
+    
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search menu by name...">
+        <button id="search-btn">Search</button>
+    </div>
+    <div class="search-results-container" id="search-results-container" style="display: none;"></div>
+
+
+
+    <script>
+        function goToProductDetail(productId) {
+            if (!localStorage.getItem('isLoggedIn')) {
+                alert('Please log in to view product details.');
+                window.location.href = 'sign-in.html';
+            } else {
+                window.location.href = `product-detail.html?id=${productId}`;
+            }
+        }
+    </script>
+
+
+<section id="hot-coffee" class="menu-section">
+    <h1 class="menu-title">Hot Coffee</h1>
+    <div id="hot-coffee-container" class="menu-container"></div>
+</section>
+
+<section id="hot-tea-section" class="menu-section">
+    <h1 class="menu-title">Hot Tea</h1>
+    <div id="hot-tea-container" class="menu-container"></div>
+</section>
+
+<section id="other-hot-beverages-section" class="menu-section">
+    <h1 class="menu-title">Other Hot Beverages</h1>
+    <div id="other-hot-beverages-container" class="menu-container"></div>
+</section>
+
+<section id="cold-coffee-section" class="menu-section">
+    <h1 class="menu-title">Cold Coffee</h1>
+    <div id="cold-coffee-container" class="menu-container"></div>
+</section>
+
+<section id="ice-tea-section" class="menu-section">
+    <h1 class="menu-title">Ice Tea</h1>
+    <div id="ice-tea-container" class="menu-container"></div>
+</section>
+
+<section id="other-iced-beverages-section" class="menu-section">
+    <h1 class="menu-title">Other Iced Beverages</h1>
+    <div id="other-iced-beverages-container" class="menu-container"></div>
+</section>
+
+<section id="juice-section" class="menu-section">
+    <h1 class="menu-title">Juice</h1>
+    <div id="juice-container" class="menu-container"></div>
+</section>
+
+<section id="food-section" class="menu-section">
+    <h1 class="menu-title">Food</h1>
+    <div id="food-container" class="menu-container"></div>
+</section>
+
+    <script>
+        function addToCart(id, name, price, category) {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (!isLoggedIn || isLoggedIn !== 'true') {
+                alert('Please log in to add items to your cart.');
+                window.location.href = 'sign-in.html';
+                return;
+            }
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item.id === id && item.name === name);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ id, name, price, quantity: 1, category });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${name} has been added to your cart!`);
+        }
+
+        async function fetchMenu(query = '') {
+                const searchResultsContainer = document.getElementById('search-results-container'); // เลือก container สำหรับแสดงผลการค้นหา
+                const menuSections = document.querySelectorAll('.menu-section'); // เลือกทุก section ของเมนูปกติ
+
+                if (!query) {
+                    searchResultsContainer.style.display = 'none'; 
+                    searchResultsContainer.innerHTML = ''; 
+                    menuSections.forEach(section => section.style.display = 'block'); 
+                    return; 
+                }
+
+                try {
+                    const response = await fetch(`http://localhost:5000/api/menu?search=${query}`); 
+                    const data = await response.json(); 
+
+                    if (data.length > 0) {
+                        searchResultsContainer.style.display = 'block'; 
+                        searchResultsContainer.innerHTML = ''; 
+                        menuSections.forEach(section => section.style.display = 'none'); 
+
+                        data.forEach(item => {
+                            const menuItem = document.createElement('div'); 
+                            menuItem.classList.add('menu-item'); 
+                            menuItem.innerHTML = `
+                    <img src="assets/img/${item.image}" alt="${item.name}" class="menu-image"> 
+                    <h3 class="menu-name">${item.name}</h3> 
+                    <p class="menu-description">${item.description}</p>
+                    <p class="menu-price">${item.price} THB</p> 
+                    <button class="add-to-cart-btn" onclick="addToCart('${item.id}', '${item.name}', ${item.price}, '${item.category}')">Add to Cart</button>
+                `; 
+                            searchResultsContainer.appendChild(menuItem); 
+                        });
+                    } else {
+                       
+                        searchResultsContainer.style.display = 'block'; 
+                        searchResultsContainer.innerHTML = `
+                <div class="no-results-message">
+                    Sorry, we couldn’t find any food or beverage that match your selection. Please try again.
+                </div>
+            `; 
+                        menuSections.forEach(section => section.style.display = 'none'); 
+                    }
+                } catch (error) {
+                    
+                    console.error('Error fetching menu:', error); 
+                    searchResultsContainer.style.display = 'block'; 
+                    searchResultsContainer.innerHTML = `
+            <div class="error-message">
+                Something went wrong while fetching the menu. Please try again later.
+            </div>
+        `; 
+                    menuSections.forEach(section => section.style.display = 'none'); 
+                }
+            }
+
+            document.getElementById('search-btn').addEventListener('click', () => {
+                const query = document.getElementById('search-input').value.trim(); 
+                fetchMenu(query); 
+            });
+
+
+    fetch('http://localhost:5000/menu/hot-coffee')
+        .then(response => response.json())
+        .then(data => {
+            const coffeeContainer = document.getElementById('hot-coffee-container');
+            coffeeContainer.innerHTML = ''; 
+            data.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.classList.add('menu-item');
+                menuItem.innerHTML = `
+                <img src="assets/img/${item.image}" alt="${item.name}" class="menu-image">
+                <h3 class="menu-name">${item.name}</h3>
+                <p class="menu-description">${item.description}</p>
+                <p class="menu-price">${item.price} THB</p>
+<button class="add-to-cart-btn" onclick="addToCart('${item.id}', '${item.name}', ${item.price})">Add to Cart</button>
+            `;
+                coffeeContainer.appendChild(menuItem);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching hot coffee menu:', error);
+        });
+
+    fetch('http://localhost:5000/menu/hot-tea')
+        .then(response => response.json())
+        .then(data => {
+            const teaContainer = document.getElementById('hot-tea-container');
+            teaContainer.innerHTML = ''; 
+            data.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.classList.add('menu-item');
+                menuItem.innerHTML = `
+                <img src="assets/img/${item.image}" alt="${item.name}" class="menu-image">
+                <h3 class="menu-name">${item.name}</h3>
+                <p class="menu-description">${item.description}</p>
+                <p class="menu-price">${item.price} THB</p>
+<button class="add-to-cart-btn" onclick="addToCart('${item.id}', '${item.name}', ${item.price})">Add to Cart</button>
+
+            `;
+                teaContainer.appendChild(menuItem);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching hot tea menu:', error);
+        });
+
+    fetch('http://localhost:5000/menu/other-hot-beverages') 
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('other-hot-beverages-container');
+                container.innerHTML = ""; 
+                data.forEach(item => {
+                    const menuItem = document.createElement('div');
+                    menuItem.classList.add('menu-item');
+                    menuItem.innerHTML = `
+                <img src="assets/img/${item.image}" alt="${item.name}" class="menu-image">
+                <h3 class="menu-name">${item.name}</h3>
+                <p class="menu-description">${item.description}</p>
+                <p class="menu-price">${item.price} THB</p>
+<button class="add-to-cart-btn" onclick="addToCart('${item.id}', '${item.name}', ${item.price})">Add to Cart</button>
+
+            `;
+                    container.appendChild(menuItem);
+                });
+            })
+            .catch(error => console.error('Error fetching Other Hot Beverages:', error));
+
+    fetch('http://localhost:5000/menu/cold-coffee') // Endpoint สำหรับ Cold Coffee
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('cold-coffee-container');
+            container.innerHTML = ""; // ล้างข้อมูลเก่า
+            data.forEach(item => {
+                const menuItem = document.createElement('div');
+                menuItem.classList.add('menu-item');
+                menuItem.innerHTML = `
+                <img src="assets/img/${item.image}" alt="${item.name}" class="menu-image">
+                <h3 class="menu-name">${item.name}</h3>
+                <p class="menu-description">${item.description}</p>
+                <p class="menu-price">${item.price} THB</p>
+<button class="add-to-cart-btn" onclick="addToCart('${item.id}', '${item.name}', ${item.price})">Add to Cart</button>
+
+            `;
+                container.appendChild(menuItem);
+            });
+        })
+        .catch(error => console.error('Error fetching Cold Coffee:', error));
+
+    fetch('http://localhost:5000/menu/ice-tea') // Endpoint สำหรับ Ice Tea
+        .then(response => response.json())
+        .then(data => {
+                    const container = document.getElementById('ice-tea-container');
+                    container.innerHTML = ""; // ล้างข้อมูลเก่า
+                    data.forEach(item => {  
+                        const menuItem = document.createElement('div');
+                        menuItem.classList.add('menu-item');
+                        menuItem.innerHTML = `
+                <img src="assets/img/${item.image}" alt="${item.name}" class="menu-image">
+                <h3 class="menu-name">${item.name}</h3>
+                <p class="menu-description">${item.description}</p>
+                <p class="menu-price">${item.price} THB</p>
+<button class="add-to-cart-btn" onclick="addToCart('${item.id}', '${item.name}', ${item.price})">Add to Cart</button>
+
+            `;
+                        container.appendChild(menuItem);
+                    });
+                })
+        .catch(error => console.error('Error fetching Ice Tea:', error));
+
+    fetch('http://localhost:5000/menu/other-iced-beverages') // Endpoint
+        .then(response => response.json())
+        .then(data => {
+                            const container = document.getElementById('other-iced-beverages-container');
+                            container.innerHTML = ""; // ล้างข้อมูลเก่า
+                            data.forEach(item => {
+                                const menuItem = document.createElement('div');
+                                menuItem.classList.add('menu-item');
+                                menuItem.innerHTML = `
+                <img src="assets/img/${item.image}" alt="${item.name}" class="menu-image">
+                <h3 class="menu-name">${item.name}</h3>
+                <p class="menu-description">${item.description}</p>
+                <p class="menu-price">${item.price} THB</p>
+<button class="add-to-cart-btn" onclick="addToCart('${item.id}', '${item.name}', ${item.price})">Add to Cart</button>
+
+            `;
+                                container.appendChild(menuItem);
+                            });
+                        })
+        .catch(error => console.error('Error fetching Other Iced Beverages:', error));
+
+    fetch('http://localhost:5000/menu/juice')
+        .then(response => response.json())
+        .then(data => {
+                                    const container = document.getElementById('juice-container');
+                                    container.innerHTML = ""; // ล้างข้อมูลเก่า
+                                    data.forEach(item => {
+                                        const menuItem = document.createElement('div');
+                                        menuItem.classList.add('menu-item');
+                                        menuItem.innerHTML = `
+                <img src="assets/img/${item.image}" alt="${item.name}" class="menu-image">
+                <h3 class="menu-name">${item.name}</h3>
+                <p class="menu-description">${item.description}</p>
+                <p class="menu-price">${item.price} THB</p>
+<button class="add-to-cart-btn" onclick="addToCart('${item.id}', '${item.name}', ${item.price})">Add to Cart</button>
+
+            `;
+                                        container.appendChild(menuItem);
+                                    });
+                                })
+        .catch(error => console.error('Error fetching juices:', error));
+
+    fetch('http://localhost:5000/menu/food')
+        .then(response => response.json())
+        .then(data => {
+                                            const container = document.getElementById('food-container');
+                                            container.innerHTML = ""; // ล้างข้อมูลเก่า
+                                            data.forEach(item => {
+                                                const menuItem = document.createElement('div');
+                                                menuItem.classList.add('menu-item');
+                                                menuItem.innerHTML = `
+                <img src="assets/img/${item.image}" alt="${item.name}" class="menu-image">
+                <h3 class="menu-name">${item.name}</h3>
+                <p class="menu-description">${item.description}</p>
+                <p class="menu-price">${item.price} THB</p>
+<button class="add-to-cart-btn" onclick="addToCart('${item.id}', '${item.name}', ${item.price})">Add to Cart</button>
+
+            `;
+                                                container.appendChild(menuItem);
+                                            });
+                                        })
+        .catch(error => console.error('Error fetching food:', error));
+
+
+</script>
+</div>
+
+<footer class="footer section bd-container">
+    <div class="footer__container bd-grid">
+    </div>
+    <p class="footer__copy">&#169; 2024 Taoclan Coffee Company.</p>
+</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Info - Taoclan</title>
+        <style>
+        /* ตั้งค่าพื้นฐาน */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f5f1;
+            color: #4b4b4b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 80vh;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #38470B;
+            padding: 15px 30px;
+            color: #fff;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .header .logo {
+            font-family: Limelight;
+            font-size: 40px;
+            font-weight: 400;
+            margin-left: 200px;
+            color: #F9F6F2;
+        }
+
+        .nav-links {
+            list-style: none;
+            margin-right: 700px;
+            display: flex;
+            gap: 50px;
+            font-family: Enriqueta;
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 32.11px;
+            text-align: left;
+            text-underline-position: from-font;
+            text-decoration-skip-ink: none;
+        }
+
+        .nav-links li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            font-family: Enriqueta;
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 32.11px;
+            text-align: left;
+            text-underline-position: from-font;
+            text-decoration-skip-ink: none;
+        }
+
+        
+        /* User Info */
+        .user-info-container {
+            width: 500px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 100px; /* ให้ห่างจาก Header */
+        }
+
+        .user-info-container h2 {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .user-info-container p {
+            margin: 10px 0;
+            font-size: 24px;
+            color: #555;
+        }
+
+        button.logout-btn {
+            background-color: #d9534f;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button.logout-btn:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">TAOCLAN</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="promotion.html">Promotions</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="contact.html">Contact us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="user-info-container" id="user-info">
+        <!-- ข้อมูล User Info จะถูกแสดงที่นี่ -->
+    </div>
+    <script src="assets/auth.js"></script>
+    <script>
+
+        function loginUser(token, userId) {
+                localStorage.setItem('isLoggedIn', 'true'); // ตั้งค่าว่าผู้ใช้ล็อกอินแล้ว
+                localStorage.setItem('token', token); // เก็บ JWT
+                localStorage.setItem('userId', userId); // เก็บ userId
+                window.location.href = 'index.html'; // นำผู้ใช้ไปยังหน้าหลัก
+            }
+
+        async function fetchUserInfo() {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    window.location.href = 'sign-in.html';
+                    return;
+                }
+
+                try {
+                    const res = await fetch('/api/user-info', {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (res.ok) {
+                        const data = await res.json();
+                        console.log('User Info:', data);
+                        displayUserInfo(data);
+                    } else {
+                        console.error('Error:', await res.text());
+                        window.location.href = 'sign-in.html';
+                    }
+                } catch (error) {
+                    console.error('Error fetching user info:', error);
+                    window.location.href = 'sign-in.html';
+                }
+            }
+
+            function displayUserInfo(user) {
+                const userInfoContainer = document.getElementById('user-info');
+                userInfoContainer.innerHTML = `
+        <h2>User Information</h2>
+        <p><strong>Name:</strong> ${user.firstName} ${user.lastName}</p>
+        <p><strong>Balance:</strong> ${user.balance} Bath</p>
+        <p><strong>Total Spent:</strong> ${user.totalSpent} Bath</p>
+        <p><strong>Membership Level:</strong> ${user.membershipLevel}</p>
+    `;
+            }
+
+            document.addEventListener('DOMContentLoaded', fetchUserInfo);
+
+    </script>
+</body>
+
+</html>

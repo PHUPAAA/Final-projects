@@ -1,0 +1,327 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Enriqueta:wght@400;700&display=swap');
+html {
+    scroll-behavior: smooth;
+}
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f5f1;
+    color: #4b4b4b;
+    overflow-x: hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #38470B;
+    padding: 40px 50px;
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 95%;
+}
+
+.header .logo {
+    font-family: Limelight;
+    font-size: 40px;
+    font-weight: 400;
+    color: #F9F6F2;
+    margin-left: 50px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 50px;
+    font-family: Enriqueta;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 32.11px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    font-family: Enriqueta;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 32.11px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+}
+
+/* ปุ่ม Sign In */
+#sign-in-btn {
+    background-color: #A0855B;
+    color: #fff;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-family: 'Enriqueta', serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#sign-in-btn:hover {
+    background-color: #8f9848;
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#auth-section {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 40px;
+}
+
+.auth-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+#logout-btn {
+    background-color: #A0855B;
+    color: #fff;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-family: 'Enriqueta', serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#logout-btn:hover {
+    background-color: #8f9848;
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);}
+
+.main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 120px;
+    
+}
+
+.intro {
+    max-width: 50%;
+    margin-right: 40px;
+    margin-top: 100px;
+}
+
+.intro h1 {
+    color: #A0855B;
+    font-family: Enriqueta;
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 64px;
+    margin-bottom: 15px;
+    margin-left: 240px;
+}
+
+.its {
+    font-family: Enriqueta;
+    font-size: 96px;
+    font-weight: 400;
+    line-height: 128px;
+    color: #A0855B;
+    margin-left: 200px;
+}
+
+.taoclan {
+    font-family: Enriqueta;
+    font-size: 96px;
+    font-weight: 400;
+    line-height: 128px;
+    color: #38470B;
+    margin-left: 10px;
+}
+
+.intro p {
+    font-family: Enriqueta;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 32px;
+    color: #38470B;
+    margin-top: 20px;
+    margin-left: 200px;
+}
+
+.mascot img {
+    width: 700px;
+    margin-right: 0;
+    margin-left: -100px;
+    margin-top: 60px;
+}
+
+/* Contact Us  */
+.contact-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 120px 20px;
+    background-color: #f9f5f1;
+}
+
+.contact-title {
+    color: #A0855B;
+    font-weight: bold;
+    margin-bottom: 30px;
+    font-family: Enriqueta;
+    font-size: 96px;
+    font-weight: 600;
+    line-height: 128.45px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;}
+
+.contact-form-container {
+    background-color: #f3e4c8;
+    padding: 40px;
+    border-radius: 15px;
+    width: 60%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+  
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  
+}
+
+.form-group textarea {
+    resize: none;
+}
+
+.submit-btn {
+    background-color: #38470B;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Enriqueta', serif;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #A0855B;
+}
+/* Menu */
+
+.menu-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1px 20px;
+    background-color: #f9f5f1;
+}
+
+.must-try-title {
+    color: #A0855B;
+    font-weight: bold;
+    margin-bottom: 30px;
+    font-family: Enriqueta;
+    font-size: 96px;
+    font-weight: 600;
+    line-height: 128.45px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+}
+.menu-container {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.menu-item {
+    width: 372px;
+    height: 550px;    
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 60px;
+}
+
+.menu-image {
+    width: 372px;
+    height: 426px;
+    border-radius: 8px;
+}
+
+.menu-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.menu-description {
+    font-size: 14px;
+    color: #555;
+}
+
+.menu-price {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 10px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin-top: 90px;
+}
+
+.footer-copyright {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #ccc;
+}
